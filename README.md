@@ -69,74 +69,13 @@ run `sudo apt-get install python3.7-dev` first if you don't have python3.7 dev p
 
 To obtain the experimental results of our paper, execute `run.py` with the following parameters:
 
-### A) Sec. 2.2 (Hypothesis validation)
+(Hypothesis validation)
   1. **Figure 3:** Distributions of Euclidean distances between bug and patch descriptions.
 ```
 python run.py hypothesis
 ```
 
-### B) Sec. 5.1 (RQ1: Effectiveness of Quatrain) 
-  1. **Figure 6:** Distribution of Patches in Train and Test Data. 
-  2. **Table 2:** Confusion matrix of Quatrain prediction.
-```
-python run.py RQ1
-```
-  3. **The improved F1:** a better F1 score of 0.793 by re-balancing the test data.
-```
-python run.py RQ1 balance
-```  
 
-### C) Sec. 5.2 (RQ2: Analysis of the Impact of Input Quality on Quatrain)
-#### RQ 2.1
-  1. **Figure 7:**  Impact of length of patch description to prediction.
-```
-python run.py RQ2.1
-```
-#### RQ 2.2
-  2. **Figure 8:**  The distribution of probability of patch correctness
-on original and random bug report.
-  3. **The dropped +Recall:**  22% (241/1073) of developer patches, which were previously predicted as correct, are no longer recalled by Quatrain after they have been associated to a random bug report.
-```
-python run.py RQ2.2
-```
-#### RQ 2.3
-  4. **Figure 9:**   Impact of distance between generated patch descrip-
-tion to ground truth on prediction performance.
-  5. **The dropped +Recall:**  The metric (+Recall) drops by 37 percentage points to 45\% when the developer-written descriptions are replaced with CodeTrans-generated descriptions.
-```
-python run.py RQ2.3
-```
-  6. **The dropped AUC:**  we evaluated Quatrain in a setting where all developer commit messages were replaced with CodeTrans-generated descriptions: the AUC metric dropped by 11 percentage points to 0.774, confirming our findings.
-```
-python run.py RQ2.3 CodeTrans
-```
-
-### D) Sec. 5.3 (RQ3: Comparison Against the State of the Art)
-#### Sec. 5.3.1 (Comparing against Static Approaches)
-  1. **Table 3:** Quatrain vs a DL-based patch classifie.
-  2. **New identification:**  Among 9135 patches, our approach identifies 7842 patches, of which 2735 patches cannot be identified by Tian et al.'s approach (RF).
-```
-python run.py RQ3 DL
-```
-  3. **Table 4:** Quatrain vs BATS.
-  4. **New identification:**  180 out of 345 patches are exclusively identified by Quatrain.
-```
-python run.py RQ3 BATS
-```
-
-#### Sec. 5.3.2 (Comparing against Dynamic Approach)
-  1. **Table 5:** Quatrain vs (execution-based) PATCH-SIM.
-  2. **New identification:**  Most of the patches (1856/3149) that we identify are not correctly predicted by PATCH-SIM.
-```
-python run.py RQ3 PATCHSIM
-```
-
-### D) Sec. 6.1 (Experimental insights)
-  1. **RF with 10-fold:** RandomForest (RF) on the embeddings of the bug report and the patch based on 10-fold cross validation.
-  2. **RF with 10-group:** RandomForest (RF) on the embeddings of the bug report and the patch based on 10-group cross validation.
-```
-python run.py insights
-```
 
 ## Ⅳ) Custom Prediction
 To predict the correctness of your custom patches, you are welcome to use the prediction interface.
@@ -152,13 +91,6 @@ To predict the correctness of your custom patches, you are welcome to use the pr
     * switch the port in [BERT_Port](https://github.com/Trustworthy-Software/Quatrain/blob/main/representation/word2vec.py#L42) in case your port 8190 is occupied.
   * **Bug report text:** developer-written bug report.
   * **Patch description text:** generating patch description for your plausible patches with commit message generation tools, e.g. CodeTrans. [Github](https://github.com/agemagician/CodeTrans) and [API](https://huggingface.co/SEBIS/code_trans_t5_large_commit_generation_transfer_learning_finetune).
-
-### B) Predict
-Let's give it a try!
-```
-python run.py predict $bug_report_text $patch_description_text
-```
-For instance: `python run.py predict 'Missing type-checks for var_args notation' 'check var_args properly'`
 
 ## Ⅴ) Custom Train
 To re-train QUATRAIN model on our or other dataset, execute the following steps.
